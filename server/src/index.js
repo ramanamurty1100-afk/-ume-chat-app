@@ -29,7 +29,7 @@ app.get('/health', (_req, res) => res.json({ ok: true, service: 'U&Me API' }));
 app.post('/api/auth/register', async (req, res) => {
   try {
     const { name, email, password } = req.body || {};
-    if (!name?.trim() || !/^\\S+@\\S+\\.\\S+$/.test(email || '') || !password || password.length < 8)
+    if (!name?.trim() || !/^\S+@\S+\.\S+$/.test(email || '') || !password || password.length < 8)
       return res.status(400).json({ error: 'Provide name, valid email and password (8+ characters).' });
     const passwordHash = await bcrypt.hash(password, 12);
     const user = await prisma.user.create({ data: { name: name.trim(), email: email.toLowerCase(), passwordHash }, select: { id:true, name:true, email:true } });
